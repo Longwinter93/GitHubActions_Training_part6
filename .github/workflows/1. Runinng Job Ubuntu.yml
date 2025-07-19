@@ -7,6 +7,7 @@ on:
 env:
   CACHE_KEY: node-deps
   MONGODB_DB_NAME: gha-demo
+#We need to also change the environment variables in Dockerfile !
 #We run this test job on  the Ubuntu Machine provided by GitHub Actions
 jobs:
   test:

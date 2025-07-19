@@ -7,6 +7,7 @@ on:
 env:
   CACHE_KEY: node-deps
   MONGODB_DB_NAME: gha-demo
+#We need to also change the environment variables in Dockerfile !
 #We run this test job on a Docker Container. We add container in a job defintion.
 #We put all steps into a container by using some basic image, base environment to see how it works.
 #We need to specify the name of the image that will be used. 
