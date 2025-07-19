@@ -1,4 +1,4 @@
-name: Deployment (Container)
+name: Running Job (Container)
 on:
   push:
     branches:
@@ -7,10 +7,17 @@ on:
 env:
   CACHE_KEY: node-deps
   MONGODB_DB_NAME: gha-demo
+#We run this test job on a Docker Container. We add container in a job defintion.
+#We put all steps into a container by using some basic image, base environment to see how it works.
+#We need to specify the name of the image that will be used. 
+#All Docker Containers are based on some image
+#It runs on the ubuntu machine, but it will just host the image, but this step does not have access to these tools
 jobs:
   test:
     environment: testing
     runs-on: ubuntu-latest
+    container: 
+      image: node:16
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb+srv
       MONGODB_CLUSTER_ADDRESS: cluster0.ijn0koz.mongodb.net
