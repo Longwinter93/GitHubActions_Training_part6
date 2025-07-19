@@ -17,7 +17,7 @@ jobs:
     environment: testing
     runs-on: ubuntu-latest
     container: 
-      image: node:16
+      image: node:18
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb+srv
       MONGODB_CLUSTER_ADDRESS: cluster0.ijn0koz.mongodb.net
@@ -52,3 +52,5 @@ jobs:
           echo "MONGODB_DB_NAME: $MONGODB_DB_NAME"
           echo "MONGODB_USERNAME: $MONGODB_USERNAME"
           echo "${{ env.PORT }}"
+
+#On the GitHub Actions in this workflow, you can see a step -> Initialize Containers
