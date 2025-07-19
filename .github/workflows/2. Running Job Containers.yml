@@ -56,4 +56,4 @@ jobs:
 #On the GitHub Actions in this workflow, you can see a step -> Initialize Containers
 #It performs all all steps that were executed inside of this container
 #We technically run all these steps in different environments.
-#It is helpful if you need full control over the environment where you run your jobs
+#It is helpful if you need full control over the environment where you run your jobs.
