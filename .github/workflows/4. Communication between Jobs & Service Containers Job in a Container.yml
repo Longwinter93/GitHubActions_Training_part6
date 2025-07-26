@@ -1,4 +1,4 @@
-name: Communication between Jobs & Service Containers
+name: Communication between Jobs & Service Containers (Job is running in a container)
 on:
   push:
     branches:
@@ -63,3 +63,5 @@ jobs:
           echo "MONGODB_USERNAME: $MONGODB_USERNAME"
           echo "${{ env.PORT }}"
 
+#In a GitHub Action Workflow, we can see in a Initialize Container step, we can see Starting mongodb service container
+#We have a totally isolated workflow that runs successfully and it does not use any external testing database
