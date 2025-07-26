@@ -47,3 +47,4 @@ jobs:
           echo "MONGODB_DB_NAME: $MONGODB_DB_NAME"
           echo "MONGODB_USERNAME: $MONGODB_USERNAME"
           echo "${{ env.PORT }}"
+##If we remove network access in MongoDB (ALLOW ACCESS FROM ANYWHERE), this workflow will not run

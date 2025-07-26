@@ -65,3 +65,4 @@ jobs:
 #Container -> env. -> Container might need also environment variables
 #This information comes from official image documentation (env), but for this image it is not needed
 #Finally, we have put a job and its steps into a container.
+#If we remove network access in MongoDB (ALLOW ACCESS FROM ANYWHERE), this workflow will not run
