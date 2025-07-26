@@ -7,7 +7,10 @@ on:
 env:
   CACHE_KEY: node-deps
   MONGODB_DB_NAME: gha-demo
-#We need to also change the environment variables in Dockerfile !
+#We need to also change the environment variables in Dockerfile to connect to MongoDB database!
+#We build a container image for this application to start web server and run the web server in that isolated environment
+#based on some node image that was built from Docker File (that we need to put environment variables here)
+#This Docker File enables us to run containers based on the definition
 #We run this test job on a Docker Container. We add container in a job defintion.
 #We put all steps into a container by using some basic image, base environment to see how it works.
 #We need to specify the name of the image that will be used. 
@@ -21,7 +24,7 @@ jobs:
       image: node:18
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb+srv
-      MONGODB_CLUSTER_ADDRESS: cluster0.ijn0koz.mongodb.net
+      MONGODB_CLUSTER_ADDRESS: cluster0.6ukh6mx.mongodb.net
       MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
       MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
       PORT: 8080

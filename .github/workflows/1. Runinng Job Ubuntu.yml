@@ -7,7 +7,7 @@ on:
 env:
   CACHE_KEY: node-deps
   MONGODB_DB_NAME: gha-demo
-#We need to also change the environment variables in Dockerfile !
+#We need to also change the environment variables in Dockerfile to connect to MongoDB database!
 #We run this test job on  the Ubuntu Machine provided by GitHub Actions
 jobs:
   test:
@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb+srv
-      MONGODB_CLUSTER_ADDRESS: cluster0.ijn0koz.mongodb.net
+      MONGODB_CLUSTER_ADDRESS: cluster0.6ukh6mx.mongodb.net
       MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
       MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
       PORT: 8080
