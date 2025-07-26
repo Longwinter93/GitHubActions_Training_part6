@@ -1,0 +1,70 @@
+name: Running Job (Service Container)
+on:
+  push:
+    branches:
+      - main
+      - dev
+env:
+  CACHE_KEY: node-deps
+  MONGODB_DB_NAME: gha-demo
+jobs:
+  test:
+    environment: testing
+    runs-on: ubuntu-latest
+    container: 
+      image: node:18
+#These credentials must be also used for connecting (we changed these credentials)
+#We use the same credentials for the env. variables that are used by these steps to run these automated tests (A Run Test step)
+#Thanks to have the same credentials, the connection to this testing database can be established successfully.
+    env:
+      MONGODB_CONNECTION_PROTOCOL: mongodb+srv
+      MONGODB_CLUSTER_ADDRESS: cluster0.6ukh6mx.mongodb.net
+      MONGODB_USERNAME: root 
+      MONGODB_PASSWORD: example
+      PORT: 8080
+#Adding a service container that runs a MongoDB Database can be used by these automated tests
+#My services always run inside of containers/images
+#Mongo image needs environment variables (Look at docs). These env. variables hold username and passwords
+#That will be used to connect to this database, but we spin up a new database inside of this container
+#Therefore, we also configure credentials that will be used for connecting this database
+    services: 
+      mongodb:
+        image: mongo
+        env: 
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: example
+#it is not so complicated credentials, because this database testing only runs as long as your workflow is running
+#Of course if these credentials are different than the prod database
+#We have just defined our Service Container. It uses mongo image - it gives MongoDB Server
+#It should be initialized with these credentials
+#This service runs side by side whilst our steps are executing
+#Therefore, a Run Server Step starts the web server, this web sevver will be able to successfully to connect this MongoDB Database (Service Containers)
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ env.CACHE_KEY }}-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Run server
+        run: npm start & npx wait-on http://127.0.0.1:$PORT # requires MongoDB Atlas to accept requests from anywhere!
+      - name: Run tests
+        run: npm test
+      - name: Output information
+        run: |
+          echo "MONGODB_USERNAME: $MONGODB_USERNAME"
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output information
+        env:
+          PORT: 3000
+        run: |        
+          echo "MONGODB_DB_NAME: $MONGODB_DB_NAME"
+          echo "MONGODB_USERNAME: $MONGODB_USERNAME"
+          echo "${{ env.PORT }}"
+

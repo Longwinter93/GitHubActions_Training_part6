@@ -1,0 +1,65 @@
+name: Communication between Jobs & Service Containers
+on:
+  push:
+    branches:
+      - main
+      - dev
+env:
+  CACHE_KEY: node-deps
+  MONGODB_DB_NAME: gha-demo
+#To communicate between Service Continer and Job - whether my job runs in a container or not
+#My job runs in a container, thus connects to Service Containers are super easy
+#GitHub Actions automatically create a networking environment. 
+#We can use label of my service container (27 lines - mongodb) as a connection address -> MONGODB_CLUSTER_ADDRESS
+#This label can be used for establishing a network connection
+#It works if your job runs in a container as this job runs
+jobs:
+  test:
+    environment: testing
+    runs-on: ubuntu-latest
+    container: 
+      image: node:18
+#We need to change CONNECTION PROTOCOL as well with respect to a official documentation (Dokcer Image)
+#We can simply run this workflow that it does not need external MongoDB Clusters. 
+#We use work on totally isolated MonboDB DB with the help of this Service Container
+    env:
+      MONGODB_CONNECTION_PROTOCOL: mongodb
+      MONGODB_CLUSTER_ADDRESS: mongodb
+      MONGODB_USERNAME: root 
+      MONGODB_PASSWORD: example
+      PORT: 8080
+    services: 
+      mongodb:
+        image: mongo
+        env: 
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: example
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ env.CACHE_KEY }}-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Run server
+        run: npm start & npx wait-on http://127.0.0.1:$PORT # requires MongoDB Atlas to accept requests from anywhere!
+      - name: Run tests
+        run: npm test
+      - name: Output information
+        run: |
+          echo "MONGODB_USERNAME: $MONGODB_USERNAME"
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output information
+        env:
+          PORT: 3000
+        run: |        
+          echo "MONGODB_DB_NAME: $MONGODB_DB_NAME"
+          echo "MONGODB_USERNAME: $MONGODB_USERNAME"
+          echo "${{ env.PORT }}"
+
