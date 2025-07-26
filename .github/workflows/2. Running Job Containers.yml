@@ -15,7 +15,7 @@ env:
 #We put all steps into a container by using some basic image, base environment to see how it works.
 #We need to specify the name of the image that will be used. 
 #All Docker Containers are based on some image
-#It runs on the ubuntu machine, but it will just host the image, but this step does not have access to these tools
+#It runs on the ubuntu machine, but it will just host the image, but these steps do not have access to these tools & machines
 jobs:
   test:
     environment: testing
@@ -61,3 +61,5 @@ jobs:
 #It performs all all steps that were executed inside of this container
 #We technically run all these steps in different environments.
 #It is helpful if you need full control over the environment where you run your jobs.
+#Container -> env. -> Container might need also environment variables
+#This information comes from official image documentation (env), but for this image it is not needed
