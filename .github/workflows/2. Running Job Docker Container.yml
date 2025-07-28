@@ -10,7 +10,7 @@ env:
 #We need to also change the environment variables in Dockerfile to connect to MongoDB database!
 #We build a container image for this application to start web server and run the web server in that isolated environment
 #based on some node image that was built from Docker File (that we need to put environment variables here)
-#This Docker File enables us to run containers based on the definition
+#This Docker File enables us to run containers based on the definition. THerefore, it is necessary to create  Dockerfile in repo!
 #We run this test job on a Docker Container. We add container in a job defintion.
 #We put all steps into a container by using some basic image, base environment to see how it works.
 #We need to specify the name of the image that will be used. 
@@ -20,6 +20,7 @@ jobs:
   test:
     environment: testing
     runs-on: ubuntu-latest
+#A job is running in a container
     container: 
       image: node:18
     env:

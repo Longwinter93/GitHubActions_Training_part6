@@ -10,16 +10,17 @@ env:
 #To communicate between Service Continer and Job - whether my job runs in a container or not
 #My job runs in a container, thus connects to Service Containers are super easy
 #GitHub Actions automatically create a networking environment. 
-#We can use label of my service container (27 lines - mongodb) as a connection address -> MONGODB_CLUSTER_ADDRESS
+#We can use label of my service container (32 lines - mongodb) as a connection address -> MONGODB_CLUSTER_ADDRESS (27 lines)
 #This label can be used for establishing a network connection
 #It works if your job runs in a container as this job runs
 jobs:
   test:
     environment: testing
     runs-on: ubuntu-latest
+#A job runs in a container:
     container: 
       image: node:18
-#We need to change CONNECTION PROTOCOL as well with respect to a official documentation (Dokcer Image)
+#We need to change CONNECTION PROTOCOL as well with respect to a official documentation (Docker Image)
 #We can simply run this workflow that it does not need external MongoDB Clusters. 
 #We use work on totally isolated MonboDB DB with the help of this Service Container
     env:
@@ -63,6 +64,6 @@ jobs:
           echo "MONGODB_USERNAME: $MONGODB_USERNAME"
           echo "${{ env.PORT }}"
 
-#In a GitHub Action Workflow, we can see in a Initialize Container step, we can see Starting mongodb service container
+#In a GitHub Action Workflow, we can see in a Initialize Container step, we can see Starting MongoDB Service Container
 #We have a totally isolated workflow that runs successfully and it does not use any external testing database
 #If we remove network access in MongoDB (ALLOW ACCESS FROM ANYWHERE), this workflow will run

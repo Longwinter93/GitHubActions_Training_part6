@@ -38,7 +38,7 @@ jobs:
 #We have just defined our Service Container. It uses mongo image - it gives MongoDB Server
 #It should be initialized with these credentials
 #This service runs side by side whilst our steps are executing
-#Therefore, a Run Server Step starts the web server, this web sevver will be able to successfully to connect this MongoDB Database (Service Containers)
+#Therefore, a Run Server Step starts the web server, this web server will be able to successfully to connect this MongoDB Database (Service Containers)
     steps:
       - name: Get Code
         uses: actions/checkout@v3
